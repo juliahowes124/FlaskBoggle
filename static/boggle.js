@@ -22,9 +22,30 @@ async function start() {
 /** Display board */
 
 function displayBoard(board) {
-  // $table.empty();
-  // loop over board and create the DOM tr/td structure
+  $table.empty();
+  for (let row of board) {
+    let $row = $('<tr></tr>')
+    for (let letter of row) {
+      let $cell = $(`<td>${letter}</td>`)
+      $row.append($cell)
+    }
+    $table.append($row)
+  }
 }
 
+$form.on('submit', async (e) => {
+  e.preventDefault();
+  let word = $wordInput.val();
+  let response = await axios.post('/api/score-word', {
+    gameId,
+    word
+  })
+
+  if (response.data["result"] === "ok") {
+    $playedWords.append(`<li>${word}</li>`)
+  } else {
+    $message.append(response.data["result"])
+  }
+})
 
 start();

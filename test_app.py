@@ -39,4 +39,37 @@ class BoggleAppTestCase(TestCase):
             for lst in data['board']:
                 self.assertIsInstance(lst, list)
             self.assertIn(data['gameId'], games)
-            # write a test for this route
+
+    def test_score_word_integration(self):
+
+        with self.client as client:
+            game_response = client.get("/api/new-game")
+            id = game_response.json["gameId"]
+
+            game = games[id]
+            game.board = [['C', 'A', 'T', 'D', 'E'],
+                          ['C', 'B', 'T', 'D', 'E'],
+                          ['C', 'B', 'T', 'D', 'E'],
+                          ['C', 'Z', 'T', 'D', 'E'],
+                          ['C', 'X', 'T', 'D', 'E']]
+
+            score_response_1 = client.post('/api/score-word', json={
+                "word": "cat",
+                "gameId": id
+            })
+            result = score_response_1.json["result"]
+            self.assertEqual(result, "not-word")
+
+            score_response_2 = client.post('/api/score-word',  json={
+                "word": "CAT",
+                "gameId": id
+            })
+            result = score_response_2.json["result"]
+            self.assertEqual(result, "ok")
+
+            score_response_3 = client.post('/api/score-word',  json={
+                "word": "ZEBRA",
+                "gameId": id
+            })
+            result = score_response_3.json["result"]
+            self.assertEqual(result, "not-on-board")

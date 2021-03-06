@@ -32,12 +32,11 @@ def new_game():
 def score_word():
     data = request.json
     id = data['gameId']
-    print(id)
     word = data['word']
     result = 'ok'
     if word not in english_words.words:
         result = 'not-word'
-    if not games[id].check_word_on_board(word):
+    elif not games[id].check_word_on_board(word):
         result = 'not-on-board'
     return jsonify({'result': result})
 
