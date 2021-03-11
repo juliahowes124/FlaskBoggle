@@ -20,12 +20,10 @@ def homepage():
 @app.route("/api/new-game")
 def new_game():
     """Start a new game and return JSON: {game_id, board}."""
-    
     # get a unique id for the board we're creating
     game_id = str(uuid4())
     game = BoggleGame()
     games[game_id] = game
-
     return {"gameId": game_id, "board": game.board}
 
 @app.route('/api/score-word', methods=["POST"])
@@ -33,10 +31,13 @@ def score_word():
     data = request.json
     id = data['gameId']
     word = data['word']
-    result = 'ok'
-    if word not in english_words.words:
+    if not english_words.check_word(word.upper()):
         result = 'not-word'
-    elif not games[id].check_word_on_board(word):
+    elif not games[id].check_word_on_board(word.upper()):
         result = 'not-on-board'
-    return jsonify({'result': result})
+    else:
+        result = 'ok'
+        games[id].play_and_score_word(word.upper())
+
+    return jsonify({'result': result, 'score': games[id].score})
 

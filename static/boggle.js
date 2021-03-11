@@ -5,6 +5,7 @@ const $form = $("#newWordForm");
 const $wordInput = $("#wordInput");
 const $message = $(".msg");
 const $table = $("table");
+const $score = $(".score");
 
 let gameId;
 
@@ -40,9 +41,9 @@ $form.on('submit', async (e) => {
     gameId,
     word
   })
-
   if (response.data["result"] === "ok") {
     $playedWords.append(`<li>${word}</li>`)
+    $score.text(`Score: ${response.data.score}`)
   } else {
     $message.append(response.data["result"])
   }

@@ -37,8 +37,7 @@ class WordList:
         >>> english_words.check_word('')
         False
         """
-
-        return word in self.words
+        return word.upper() in self.words
 
 
 english_words = WordList("dictionary.txt")
