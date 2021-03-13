@@ -5,7 +5,7 @@ const $form = $("#newWordForm");
 const $wordInput = $("#wordInput");
 const $message = $(".msg");
 const $table = $("table");
-const $score = $(".score");
+const $gameMsg= $(".game-msg");
 const $timer = $(".timer");
 const $endGame = $('.end-game-msg');
 
@@ -21,15 +21,29 @@ async function start() {
   displayBoard(board);
   let time = 60;
   $timer.text(`Time Left: ${time}s`);
-  const timer = window.setInterval(() => {
+  const timer = window.setInterval(async () => {
     time--;
     $timer.text(`Time Left: ${time}s`);
-    if(time === 0) {
+    if (time === 0) {
       window.clearInterval(timer);
-      $endGame.append('Game Over!');
-      gameOver = true;
+      await endGame();
     }
   }, 1000)
+}
+
+async function endGame() {
+  let response = await axios.post('/api/end-game', {
+    gameId
+  })
+  let finalScore = response.data.score;
+  let numWords = response.data.num_words;
+  let highScore = response.data.high_score;
+  let highScoreNumWords = response.data.high_score_num_words;
+
+  $gameMsg.text(`Final Score: ${finalScore}pts
+                  with ${numWords} words --- High Score: 
+                  ${highScore}pts with ${highScoreNumWords} words`);
+  gameOver = true;
 }
 
 /** Display board */
@@ -48,7 +62,7 @@ function displayBoard(board) {
 
 $form.on('submit', async (e) => {
   e.preventDefault();
-  if(gameOver) return;
+  if (gameOver) return;
   let word = $wordInput.val();
   let response = await axios.post('/api/score-word', {
     gameId,
@@ -56,9 +70,16 @@ $form.on('submit', async (e) => {
   })
   if (response.data["result"] === "ok") {
     $playedWords.append(`<li>${word}</li>`)
-    $score.text(`Score: ${response.data.score}`)
+    $gameMsg.text(`Score: ${response.data.score}`)
+    $message.empty()
+    $message.append(`${word.toUpperCase()} added!`)
+    $message.removeClass('err')
+    $message.addClass('ok')
   } else {
+    $message.empty()
     $message.append(response.data["result"])
+    $message.removeClass('ok')
+    $message.addClass('err')
   }
 })
 

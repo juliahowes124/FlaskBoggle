@@ -6,34 +6,33 @@
 </head>
 
 <body>
+<h1>Boggle!</h1>
 
 <main>
-  <table class="board"></table>
-
-  <form method="POST" id="newWordForm">
-    <input
-        name="word"
-        id="wordInput"
-        class="word-input"
-        autofocus aria-label="Word">
-    <button class="word-input-btn">Go</button>
-  </form>
-  <p class="score"></p>
-  <p class="timer"></p>
-
+  <p class="msg"><!-- JS will put messages here --></p>
+  <div id="board_div">
+    <table class="board"></table>
+    <div id="word_list">
+      <ul id="words"><!-- JS will put words here --></ul>
+    </div>
+  </div>
+  <div id="form_div">
+    <p class="game-msg">
+      <!-- our JS will put messages here dynamically -->
+    </p>
+    <p class="timer"></p>
+    <form method="POST" id="newWordForm">
+      <input
+          name="word"
+          id="wordInput"
+          class="word-input"
+          autofocus aria-label="Word">
+      <button class="word-input-btn">Go</button>
+    </form>
+  </div>
 </main>
 
-<p class="end-game-msg">
-  <!-- our JS will put messages here dynamically -->
-</p>
 
-<p class="msg">
-  <!-- our JS will put messages here dynamically -->
-</p>
-
-<ul id="words">
-  <!-- our JS will words here as they score -->
-</ul>
 
 <script src="http://unpkg.com/jquery"></script>
 <script src="https://unpkg.com/axios/dist/axios.js"></script>

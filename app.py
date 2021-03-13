@@ -8,6 +8,7 @@ app.config["SECRET_KEY"] = "this-is-secret"
 
 # The boggle games created, keyed by game id
 games = {}
+high_score = {"score": 0, "num_words": 0}
 
 
 @app.route("/")
@@ -30,16 +31,30 @@ def new_game():
 def score_word():
     data = request.json
     id = data['gameId']
-    word = data['word']
-    if not english_words.check_word(word.upper()):
+    word = data['word'].upper()
+    if not english_words.check_word(word):
         result = 'not-word'
-    elif not games[id].check_word_on_board(word.upper()):
+    elif not games[id].check_word_on_board(word):
         result = 'not-on-board'
-    elif not games[id].is_word_not_a_dup(word.upper()):
+    elif not games[id].is_word_not_a_dup(word):
         result = "already played"
     else:
         result = 'ok'
-        games[id].play_and_score_word(word.upper())
+        games[id].play_and_score_word(word)
 
     return jsonify({'result': result, 'score': games[id].score})
+
+
+@app.route('/api/end-game', methods=["POST"])
+def end_game():
+    id = request.json["gameId"]
+    if games[id].score > high_score["score"]:
+        high_score["score"] = games[id].score
+        high_score["num_words"] = len(games[id].played_words)
+    
+    return jsonify({"score": games[id].score,
+                    "num_words": len(games[id].played_words),
+                    "high_score": high_score["score"],
+                    "high_score_num_words": high_score["num_words"]})
+
 

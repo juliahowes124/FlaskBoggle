@@ -1,5 +1,5 @@
 body {
-    background-color: #0099CC;
+    background-color: azure;
     font-family: -apple-system, sans-serif;
 }
 
@@ -12,8 +12,25 @@ main {
     font-size: 120%;
 }
 
+h1 {
+    text-align: center;
+}
+
+#board_div {
+    display: flex;
+    flex-direction: row;
+}
+
+#word_list {
+    margin-left: 2rem;
+}
+
+#form_div {
+    text-align: left;
+}
+
 .board {
-    border: solid 20px rgb(29, 73, 132);
+    border: solid 15px rgb(29, 73, 132);
     border-radius: 10px;
     /*font-family: monospace;*/
     font-weight: bold;
@@ -32,16 +49,7 @@ main {
 
 .msg {
     top: 1em;
-    position: absolute;
     padding: 0.5em;
-}
-
-#words {
-    position: absolute;
-    top: 1em;
-    right: 1em;
-    width: 7em;
-    list-style: none;
 }
 
 .msg.ok {
