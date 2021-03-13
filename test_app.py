@@ -58,14 +58,14 @@ class BoggleAppTestCase(TestCase):
                 "gameId": id
             })
             result = score_response_1.json["result"]
-            self.assertEqual(result, "not-word")
+            self.assertEqual(result, "ok")
 
             score_response_2 = client.post('/api/score-word',  json={
                 "word": "CAT",
                 "gameId": id
             })
             result = score_response_2.json["result"]
-            self.assertEqual(result, "ok")
+            self.assertEqual(result, "already played")
 
             score_response_3 = client.post('/api/score-word',  json={
                 "word": "ZEBRA",
@@ -73,3 +73,13 @@ class BoggleAppTestCase(TestCase):
             })
             result = score_response_3.json["result"]
             self.assertEqual(result, "not-on-board")
+
+            score_response_4 = client.post('/api/score-word',  json={
+                "word": "BTD",
+                "gameId": id
+            })
+            result = score_response_4.json["result"]
+            self.assertEqual(result, "not-word")
+            score = score_response_4.json["score"]
+            self.assertEqual(score, 1)
+
