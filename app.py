@@ -33,9 +33,9 @@ def score_word():
     id = data['gameId']
     word = data['word'].upper()
     if not english_words.check_word(word):
-        result = 'not-word'
+        result = 'not a word'
     elif not games[id].check_word_on_board(word):
-        result = 'not-on-board'
+        result = 'not on board'
     elif not games[id].is_word_not_a_dup(word):
         result = "already played"
     else:

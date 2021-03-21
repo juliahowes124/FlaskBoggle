@@ -1,6 +1,6 @@
 "use strict";
 
-const $playedWords = $("#words");
+const $playedWords = $("#word_list");
 const $form = $("#newWordForm");
 const $wordInput = $("#wordInput");
 const $message = $(".msg");
@@ -19,7 +19,7 @@ async function start() {
   gameId = response.data.gameId;
   let board = response.data.board;
   displayBoard(board);
-  let time = 60;
+  let time = 10;
   $timer.text(`Time Left: ${time}s`);
   const timer = window.setInterval(async () => {
     time--;
@@ -39,10 +39,12 @@ async function endGame() {
   let numWords = response.data.num_words;
   let highScore = response.data.high_score;
   let highScoreNumWords = response.data.high_score_num_words;
-
+  $gameMsg.removeClass('hidden');
   $gameMsg.text(`Final Score: ${finalScore}pts
                   with ${numWords} words --- High Score: 
                   ${highScore}pts with ${highScoreNumWords} words`);
+  $message.empty()
+  $message.addClass('hidden')
   gameOver = true;
 }
 
@@ -64,22 +66,24 @@ $form.on('submit', async (e) => {
   e.preventDefault();
   if (gameOver) return;
   let word = $wordInput.val();
+  $wordInput.val('');
   let response = await axios.post('/api/score-word', {
     gameId,
     word
   })
   if (response.data["result"] === "ok") {
-    $playedWords.append(`<li>${word}</li>`)
+    $playedWords.append(`<p>${word}</p>`)
     $gameMsg.text(`Score: ${response.data.score}`)
     $message.empty()
     $message.append(`${word.toUpperCase()} added!`)
-    $message.removeClass('err')
-    $message.addClass('ok')
+    $message.removeClass('alert-danger')
+    $message.addClass('alert-success')
+    $gameMsg.removeClass('hidden');
   } else {
     $message.empty()
     $message.append(response.data["result"])
-    $message.removeClass('ok')
-    $message.addClass('err')
+    $message.removeClass('alert-success')
+    $message.addClass('alert-danger')
   }
 })
 

@@ -3,26 +3,38 @@ body {
     font-family: -apple-system, sans-serif;
 }
 
+.hidden {
+    visibility: hidden;
+}
+
 main {
-    position: absolute;
+    /* position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    text-align: center;
+    text-align: center; */
     font-size: 120%;
+    margin: 5% auto;
 }
 
 h1 {
     text-align: center;
 }
 
+.alert {
+    text-align: center;
+    width: 75%;
+    margin: 2rem auto;
+}
+
 #board_div {
     display: flex;
     flex-direction: row;
+    justify-content: space-around;
 }
 
 #word_list {
-    margin-left: 2rem;
+    /* margin-left: 2rem; */
 }
 
 #form_div {
@@ -35,7 +47,6 @@ h1 {
     /*font-family: monospace;*/
     font-weight: bold;
     font-size: 150%;
-    box-shadow: #000033 5px 5px 15px 1px;
 }
 
 .board td {
@@ -47,23 +58,10 @@ h1 {
     border-radius: 5px;
 }
 
-.msg {
-    top: 1em;
-    padding: 0.5em;
-}
-
-.msg.ok {
-    color: white;
-    background-color: green;
-}
-
-.msg.err {
-    color: white;
-    background-color: tomato;
-}
-
 form {
     margin-top: 1em;
+    display: flex;
+    flex-direction: column;
 }
 
 .word-input {
@@ -81,4 +79,8 @@ form {
     border-radius: 3px;
     color: white;
     text-transform: uppercase;
+}
+
+.list-group-item {
+    margin-bottom: 0.5rem;
 }

@@ -2,34 +2,40 @@
 <html lang="en">
 <head>
   <title>Boggle</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
   <link rel="stylesheet" href="/static/boggle.css">
 </head>
 
 <body>
-<h1>Boggle!</h1>
-
-<main>
-  <p class="msg"><!-- JS will put messages here --></p>
+  
+  <main>
+  <h1>Boggle!</h1>
+  <p class="game-msg alert alert-primary hidden">
+    <!-- our JS will put messages here dynamically -->
+  </p>
   <div id="board_div">
+    <div id="form_div">
+      <p class="timer"></p>
+      <form method="POST" id="newWordForm">
+        <input
+        name="word"
+        id="wordInput"
+        class="word-input"
+        autofocus aria-label="Word">
+        <div>
+          <button class="btn btn-primary">Go</button>
+          <a href="/" class="btn btn-outline-primary">Restart</a>
+        </div>
+      </form>
+    </div>
     <table class="board"></table>
     <div id="word_list">
-      <ul id="words"><!-- JS will put words here --></ul>
+      <ul id="words" class="list-group">
+        <!-- JS will put words here -->
+      </ul>
     </div>
   </div>
-  <div id="form_div">
-    <p class="game-msg">
-      <!-- our JS will put messages here dynamically -->
-    </p>
-    <p class="timer"></p>
-    <form method="POST" id="newWordForm">
-      <input
-          name="word"
-          id="wordInput"
-          class="word-input"
-          autofocus aria-label="Word">
-      <button class="word-input-btn">Go</button>
-    </form>
-  </div>
+  <p class="msg alert"><!-- JS will put messages here --></p>
 </main>
 
 
