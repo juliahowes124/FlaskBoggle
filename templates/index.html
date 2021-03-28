@@ -7,36 +7,36 @@
 </head>
 
 <body>
-  
-  <main>
+  <div class="container">
   <h1>Boggle!</h1>
-  <p class="game-msg alert alert-primary hidden">
+  <p class="game-msg alert alert-primary">
     <!-- our JS will put messages here dynamically -->
   </p>
-  <div id="board_div">
-    <div id="form_div">
-      <p class="timer"></p>
+  <div class="row" id="board_div">
+    <div id="form_div" class="col">
       <form method="POST" id="newWordForm">
+        <p class="timer"></p>
         <input
         name="word"
         id="wordInput"
         class="word-input"
         autofocus aria-label="Word">
-        <div>
+        <div class="btn-div">
           <button class="btn btn-primary">Go</button>
           <a href="/" class="btn btn-outline-primary">Restart</a>
         </div>
       </form>
     </div>
-    <table class="board"></table>
-    <div id="word_list">
-      <ul id="words" class="list-group">
+    <div class="table-div col-6">
+      <table class="board"></table>
+    </div>
+    <div id="word_list" class="col">
+      <ul id="words">
         <!-- JS will put words here -->
       </ul>
     </div>
   </div>
-  <p class="msg alert"><!-- JS will put messages here --></p>
-</main>
+</div>
 
 
 

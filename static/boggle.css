@@ -8,23 +8,25 @@ body {
 }
 
 main {
-    /* position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center; */
     font-size: 120%;
     margin: 5% auto;
 }
 
+.container {
+    margin-top: 3rem;
+}
+
 h1 {
     text-align: center;
+    font-weight: bold;
 }
 
 .alert {
     text-align: center;
     width: 75%;
     margin: 2rem auto;
+    font-size: 1.2rem;
+    font-weight: bold;
 }
 
 #board_div {
@@ -34,7 +36,8 @@ h1 {
 }
 
 #word_list {
-    /* margin-left: 2rem; */
+    text-transform: uppercase;
+    font-weight: bold;
 }
 
 #form_div {
@@ -43,25 +46,26 @@ h1 {
 
 .board {
     border: solid 15px rgb(29, 73, 132);
-    border-radius: 10px;
-    /*font-family: monospace;*/
+    border-radius: 50%;
     font-weight: bold;
     font-size: 150%;
+    margin: auto;
 }
 
 .board td {
     text-align: center;
-    width: 1.5em;
-    height: 1.5em;
+    width: 4rem;
+    height: 4rem;
     background-color: white;
     border: solid 1px black;
     border-radius: 5px;
 }
 
 form {
-    margin-top: 1em;
     display: flex;
     flex-direction: column;
+    margin: 1rem auto;
+    width: 60%
 }
 
 .word-input {
@@ -83,4 +87,32 @@ form {
 
 .list-group-item {
     margin-bottom: 0.5rem;
+}
+
+.btn-div {
+    margin-top: 1rem;
+}
+
+.btn-primary{
+    background-color: rgb(29, 73, 132);
+    border-color: rgb(29, 73, 132);
+}
+
+.btn-primary:hover {
+    background-color: rgb(17, 46, 83);
+    border-color: rgb(17, 46, 83);
+}
+
+.btn-outline-primary{
+    border-color: rgb(29, 73, 132);
+    color: rgb(29, 73, 132);
+}
+
+.btn-outline-primary:hover {
+    background-color: rgb(29, 73, 132);
+    border-color: rgb(29, 73, 132);
+}
+
+.timer {
+    font-weight: bold;
 }
