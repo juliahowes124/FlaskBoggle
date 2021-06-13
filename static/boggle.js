@@ -19,18 +19,7 @@ async function start() {
   gameId = response.data.gameId;
   let board = response.data.board;
   displayBoard(board);
-
-  //Initialize timer and count down until 0 -> then end game
-  let time = 60;
-  $timer.text(`Time Left: ${time}s`);
-  const timer = window.setInterval(async () => {
-    time--;
-    $timer.text(`Time Left: ${time}s`);
-    if (time === 0) {
-      window.clearInterval(timer);
-      await endGame();
-    }
-  }, 1000)
+  setTimer();
 }
 
 async function endGame() {
@@ -44,11 +33,11 @@ async function endGame() {
   let highScore = data.high_score;
   let highScoreNumWords = data.high_score_num_words;
 
+  gameOver = true;
   $gameMsg.text(`Final Score: ${finalScore}pts
                   with ${numWords} words --- High Score: 
                   ${highScore}pts with ${highScoreNumWords} words`);
   $gameMsg.removeClass('alert-danger', 'alert-succes').addClass('alert-primary')
-  gameOver = true;
   $wordInput.prop( "disabled", true );
   $wordInput.val('');
 }
@@ -90,6 +79,21 @@ function displayBoard(board) {
     }
     $table.append($row)
   }
+}
+
+/**Initialize timer and count down until 0 -> then end game */
+
+function setTimer() {
+  let time = 60;
+  $timer.text(`Time Left: ${time}s`);
+  const timer = window.setInterval(async () => {
+    time--;
+    $timer.text(`Time Left: ${time}s`);
+    if (time === 0) {
+      window.clearInterval(timer);
+      await endGame();
+    }
+  }, 1000)
 }
 
 /** Clear Timouts */
