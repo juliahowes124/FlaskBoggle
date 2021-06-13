@@ -59,6 +59,8 @@ class BoggleAppTestCase(TestCase):
             })
             result = score_response_1.json["result"]
             self.assertEqual(result, "ok")
+            score = score_response_1.json["score"]
+            self.assertEqual(score, 1)
 
             score_response_2 = client.post('/api/score-word',  json={
                 "word": "CAT",
@@ -66,6 +68,8 @@ class BoggleAppTestCase(TestCase):
             })
             result = score_response_2.json["result"]
             self.assertEqual(result, "already played")
+            score = score_response_2.json["score"]
+            self.assertEqual(score, 1)
 
             score_response_3 = client.post('/api/score-word',  json={
                 "word": "ZEBRA",
@@ -73,6 +77,8 @@ class BoggleAppTestCase(TestCase):
             })
             result = score_response_3.json["result"]
             self.assertEqual(result, "not on board")
+            score = score_response_3.json["score"]
+            self.assertEqual(score, 1)
 
             score_response_4 = client.post('/api/score-word',  json={
                 "word": "BTD",
@@ -82,4 +88,34 @@ class BoggleAppTestCase(TestCase):
             self.assertEqual(result, "not a word")
             score = score_response_4.json["score"]
             self.assertEqual(score, 1)
+
+    def test_api_end_game(self):
+        """Test ending a game"""
+
+        with self.client as client:
+            game_response = client.get("/api/new-game")
+            id = game_response.json["gameId"]
+
+            game = games[id]
+            game.board = [['C', 'A', 'T', 'D', 'E'],
+                          ['C', 'B', 'T', 'D', 'E'],
+                          ['C', 'B', 'T', 'D', 'E'],
+                          ['C', 'Z', 'T', 'D', 'E'],
+                          ['C', 'X', 'T', 'D', 'E']]
+
+            client.post('/api/score-word', json={
+                "word": "cat",
+                "gameId": id
+            })
+
+            response = client.post("api/end-game", json={
+                "gameId": id
+            })
+            data = response.json
+            self.assertEqual(response.status_code, 200)
+            self.assertEqual(data["score"], 1)
+            self.assertEqual(data["num_words"], 1)
+            self.assertEqual(data["high_score"], 1)
+            self.assertEqual(data["high_score_num_words"], 1)
+
 

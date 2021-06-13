@@ -33,7 +33,7 @@ class WordList:
         >>> english_words.check_word("WORLD  ")
         False
         >>> english_words.check_word('cat')
-        False
+        True
         >>> english_words.check_word('')
         False
         """

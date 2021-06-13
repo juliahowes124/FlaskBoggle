@@ -19,7 +19,9 @@ async function start() {
   gameId = response.data.gameId;
   let board = response.data.board;
   displayBoard(board);
-  let time = 15;
+
+  //Initialize timer and count down until 0 -> then end game
+  let time = 60;
   $timer.text(`Time Left: ${time}s`);
   const timer = window.setInterval(async () => {
     time--;
@@ -32,17 +34,16 @@ async function start() {
 }
 
 async function endGame() {
-  clearTimeout(errTimeout);
-  clearTimeout(okTimeout);
-  console.log('err: ', errTimeout);
-  console.log('ok:', okTimeout);
-  let response = await axios.post('/api/end-game', {
+  clearTimeouts();
+  let {data} = await axios.post('/api/end-game', {
     gameId
-  })
-  let finalScore = response.data.score;
-  let numWords = response.data.num_words;
-  let highScore = response.data.high_score;
-  let highScoreNumWords = response.data.high_score_num_words;
+  });
+
+  let finalScore = data.score;
+  let numWords = data.num_words;
+  let highScore = data.high_score;
+  let highScoreNumWords = data.high_score_num_words;
+
   $gameMsg.text(`Final Score: ${finalScore}pts
                   with ${numWords} words --- High Score: 
                   ${highScore}pts with ${highScoreNumWords} words`);
@@ -62,28 +63,17 @@ $form.on('submit', async (e) => {
     word
   })
   if (response.data["result"] === "ok") {
-    clearTimeout(errTimeout);
-    clearTimeout(okTimeout);
-    console.debug(errTimeout);
+    clearTimeouts();
     $playedWords.append(`<p>${word}</p>`)
     $gameMsg.text(`${word.toUpperCase()} added! Score: ${response.data.score}`)
     $gameMsg.removeClass(['alert-primary', 'alert-danger']).addClass('alert-success')
-    okTimeout = window.setTimeout(() => {
-      console.debug('ok timeout')
-      $gameMsg.text(`Score: ${response.data.score}`)
-      $gameMsg.removeClass(['alert-success']).addClass('alert-primary')
-    }, 2000)
+    okTimeout = setStatusTimeout(response);
     $gameMsg.removeClass('hidden');
   } else {
-    clearTimeout(errTimeout);
-    clearTimeout(okTimeout);
+    clearTimeouts();
     $gameMsg.text(`${response.data["result"]} -- Score: ${response.data.score}`)
     $gameMsg.removeClass(['alert-primary', 'alert-success']).addClass('alert-danger')
-    errTimeout = window.setTimeout(() => {
-      console.debug('err timeout');
-      $gameMsg.text(`Score: ${response.data.score}`)
-      $gameMsg.removeClass(['alert-danger']).addClass('alert-primary')
-    }, 2000)
+    errTimeout = setStatusTimeout(response);
     $gameMsg.removeClass('hidden');
   }
 })
@@ -100,6 +90,22 @@ function displayBoard(board) {
     }
     $table.append($row)
   }
+}
+
+/** Clear Timouts */
+
+function clearTimeouts() {
+  clearTimeout(errTimeout);
+  clearTimeout(okTimeout);
+}
+
+/** Set Error Timeout */
+
+function setStatusTimeout(response) {
+  return window.setTimeout(() => {
+    $gameMsg.text(`Score: ${response.data.score}`);
+    $gameMsg.removeClass(['alert-success','alert-danger']).addClass('alert-primary');
+  }, 2000);
 }
 
 start();

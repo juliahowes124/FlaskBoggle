@@ -139,11 +139,9 @@ class BoggleGame():
         for y in range(0, 5):
             for x in range(0, 5):
                 if self._find_from(word, y, x, seen=set()):
-                    print(True)
                     return True
 
         # Tried every path from every starting square w/o luck. Sad panda.
-        print(False)
         return False
 
     def _find_from(self, word, y, x, seen):
