@@ -1,5 +1,3 @@
-let arr;
-
 beforeAll(() => {
   jasmine.getFixtures().fixturesPath = '';
   loadFixtures('../templates/index.html')

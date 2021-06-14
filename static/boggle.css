@@ -23,10 +23,10 @@ h1 {
 
 .alert {
     text-align: center;
-    width: 75%;
     margin: 2rem auto;
     font-size: 1.2rem;
     font-weight: bold;
+    width: 75%;
 }
 
 #board_div {
@@ -36,8 +36,8 @@ h1 {
 }
 
 #word_list {
-    text-transform: uppercase;
     font-weight: bold;
+    text-transform: uppercase;
 }
 
 #form_div {
@@ -53,12 +53,12 @@ h1 {
 }
 
 .board td {
-    text-align: center;
-    width: 4rem;
-    height: 4rem;
     background-color: white;
     border: solid 1px black;
     border-radius: 5px;
+    height: 4rem;
+    text-align: center;
+    width: 4rem;
 }
 
 form {
@@ -70,18 +70,18 @@ form {
 
 .word-input {
     font-size: 150%;
-    width: 5em;
     text-align: center;
     text-transform: uppercase;
+    width: 5em;
 }
 
 .word-input-btn {
-    font-size: 120%;
-    padding: 0.25em;
     background-color: rgb(29, 73, 132);
     border: solid 1px black;
     border-radius: 3px;
     color: white;
+    font-size: 120%;
+    padding: 0.25em;
     text-transform: uppercase;
 }
 
